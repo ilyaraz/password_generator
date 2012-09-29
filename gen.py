@@ -7,7 +7,7 @@ symb += [chr(x + ord('0')) for x in xrange(10)]
 symb += [x for x in "!@#$%^&*()-_=+`~[{]};:'\"\\|,<.>/?"]
 
 def random_byte():
-    input = open("/dev/urandom", "rb")
+    input = open("/dev/random", "rb")
     return ord(input.read(1))
 
 if len(sys.argv) != 3:
