@@ -1,10 +1,6 @@
 import sys
 
-symb = []
-symb += [chr(x + ord('A')) for x in xrange(26)]
-symb += [chr(x + ord('a')) for x in xrange(26)]
-symb += [chr(x + ord('0')) for x in xrange(10)]
-symb += [x for x in "!@#$%^&*()-_=+`~[{]};:'\"\\|,<.>/?"]
+symb = [chr(x) for x in xrange(33, 127)]
 
 def random_byte():
     input = open("/dev/random", "rb")
