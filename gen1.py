@@ -6,6 +6,9 @@ import os
 if len(sys.argv) != 3:
     raise Exception("usage: python gen1.py <clue> <password-length>")
 
+clue = sys.argv[1]
+length = int(sys.argv[2])
+
 def shellquote(s):
     return "'" + s.replace("'", "'\\''") + "'"
 
