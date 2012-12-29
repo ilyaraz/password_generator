@@ -5,3 +5,4 @@ vk.com 15
 livejournal.com 15
 rutracker.org 15
 github.com 15
+amazon.com 15
