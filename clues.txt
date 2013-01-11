@@ -1,9 +1,10 @@
 f24a8
-gmail.com 15
-facebook.com 15
-vk.com 15
-livejournal.com 15
-rutracker.org 15
-github.com 15
-amazon.com 15
-hdd 15
+gen1 gmail.com 15
+gen1 facebook.com 15
+gen1 vk.com 15
+gen1 livejournal.com 15
+gen1 rutracker.org 15
+gen1 github.com 15
+gen1 amazon.com 15
+gen1 hdd 15
+gen2 bankofamerica.com 20
