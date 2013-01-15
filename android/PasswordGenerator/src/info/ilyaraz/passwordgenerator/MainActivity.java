@@ -1,5 +1,8 @@
 package info.ilyaraz.passwordgenerator;
 
+import info.ilyaraz.passwordgenerator.util.Closure;
+import info.ilyaraz.passwordgenerator.util.StringCallback;
+
 import java.security.MessageDigest;
 
 import android.os.Bundle;
@@ -23,43 +26,22 @@ public class MainActivity extends Activity {
         final SharedPreferences settings = this.getSharedPreferences("UnpredictablePasswordGenerator", 0);
         String masterPasswordHash = settings.getString(MASTER_HASH, null);
         if (masterPasswordHash == null) {
-        	AlertDialog.Builder masterPasswordDialog = new AlertDialog.Builder(this);
-        	masterPasswordDialog.setTitle("Set Master Password");
-        	masterPasswordDialog.setMessage("Please set master password.");
-        	masterPasswordDialog.setCancelable(false);
-        	
         	final MainActivity activity = this;
-        	final EditText input = new EditText(this);
-        	masterPasswordDialog.setView(input);
         	
-        	masterPasswordDialog.setPositiveButton("Ok", new DialogInterface.OnClickListener() {				
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					String value = input.getText().toString();
-					
-					try {
-						MessageDigest hasher = MessageDigest.getInstance("SHA-512", "BC");
-						byte[] digest = hasher.digest(value.getBytes());
-						value = new String(digest);
-					} catch (Exception e) {
-						e.printStackTrace();
-						moveTaskToBack(true);
-					}
-					
-					settings.edit().putString(MASTER_HASH, value).commit();
-					activity.masterPasswordHash = value;
-					setContentView(R.layout.activity_main);
-				}
-			});
-        	
-        	masterPasswordDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {				
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					moveTaskToBack(true);
-				}
-			});
-        	
-        	masterPasswordDialog.show();
+        	MasterPasswordEditor.editMasterPassword(this, "Set Master Password", "Please set master password.", 
+        			new StringCallback() {
+						@Override
+						public void Run(String value) {
+							activity.masterPasswordHash = value;
+							setContentView(R.layout.activity_main);
+						}
+					}, 
+        			new Closure() {
+						@Override
+						public void Run() {
+							moveTaskToBack(true);
+						}
+					});
         	return;
         }
         
