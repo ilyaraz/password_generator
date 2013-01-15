@@ -1,4 +1,0 @@
-INDEX VERSION 1.126+C:\Users\Ilya\Documents\GitHub\password_generator\android\.metadata\.plugins\org.eclipse.jdt.core
-4270356235.index
-3851097744.index
-1169094260.index

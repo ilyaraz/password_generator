@@ -18,13 +18,11 @@ password = getpass.getpass()
 
 h = hashlib.new('sha512')
 h.update(password)
-h.update('')
 print h.hexdigest()[:5]
 
 h = hashlib.new('sha512')
 h.update(password)
 h.update(clue)
-h.update('')
 a = list(h.digest())
 num = 0
 for c in a:
