@@ -24,7 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_width="0dp"
-        android:layout_toLeftOf="@+id/add_clue_button"
+        android:layout_toLeftOf="@+id/add_clue"
         android:layout_below="@+id/is_master_password_correct"
         />
     <Button
@@ -39,7 +39,7 @@
         android:id="@+id/password"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
-        android:layout_below="@+id/add_clue_button"
+        android:layout_below="@+id/add_clue"
         android:text="blahblah"
         />
     <Button
