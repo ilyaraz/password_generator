@@ -1,14 +1,52 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MainActivity" >
-
-    <TextView
-        android:layout_width="wrap_content"
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+    <EditText
+        android:id="@+id/master_password"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:text="@string/hello_world" />
-
+        android:layout_width="0dp"
+        android:layout_alignParentLeft="true"
+        android:inputType="textPassword"
+        android:layout_toLeftOf="@+id/is_master_password_correct"
+        />
+    <ImageView
+        android:id="@+id/is_master_password_correct"
+        android:adjustViewBounds="true"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/cross"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        />
+    <Spinner
+        android:id="@+id/clue"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_width="0dp"
+        android:layout_toLeftOf="@+id/add_clue_button"
+        android:layout_below="@+id/is_master_password_correct"
+        />
+    <Button
+        android:id="@+id/add_clue_button"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_alignParentRight="true"
+        android:text="Add"
+        android:layout_below="@+id/is_master_password_correct"
+        />
+    <TextView
+        android:id="@+id/password"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_below="@+id/add_clue_button"
+        android:text="blahblah"
+        />
+    <Button
+        android:id="@+id/copy_button"
+        android:text="Copy"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_below="@+id/password"
+        />
 </RelativeLayout>
