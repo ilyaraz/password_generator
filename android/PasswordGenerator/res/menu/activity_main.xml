@@ -1,6 +1,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
     
     <item android:id="@+id/changeMasterItem" 
-        android:title="@string/changeMasterPasswordMenuItem" 
-        android:showAsAction="always"/>
+        android:title="@string/changeMasterPasswordMenuItem"
+        android:showAsAction="never"
+        android:onClick="changeMasterPasswordMenuItem"/>
 </menu>

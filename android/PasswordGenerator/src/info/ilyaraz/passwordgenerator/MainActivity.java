@@ -11,6 +11,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.view.Menu;
+import android.view.View;
 import android.widget.EditText;
 
 public class MainActivity extends Activity {
@@ -58,7 +59,7 @@ public class MainActivity extends Activity {
     }
     
     
-    public void changeMasterPasswordMenuItem() {
+    public void changeMasterPasswordMenuItem(View view) {
     	final MainActivity activity = this;
     	
     	MasterPasswordEditor.editMasterPassword(this, "Change Master Password", "Please set new master password.", 
