@@ -2,8 +2,5 @@
     
     <item android:id="@+id/changeMasterItem" 
         android:title="@string/changeMasterPasswordMenuItem" 
-        android:onClick="changeMasterPasswordMenuItem" android:showAsAction="always"/>
-    <item android:id="@+id/item1"></item>
-    <item android:id="@+id/item2"></item>
-
+        android:showAsAction="always"/>
 </menu>

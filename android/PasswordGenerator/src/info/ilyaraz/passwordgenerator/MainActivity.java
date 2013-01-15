@@ -58,7 +58,7 @@ public class MainActivity extends Activity {
     }
     
     
-    void changeMasterPasswordMenuItem() {
+    public void changeMasterPasswordMenuItem() {
     	final MainActivity activity = this;
     	
     	MasterPasswordEditor.editMasterPassword(this, "Change Master Password", "Please set new master password.", 
