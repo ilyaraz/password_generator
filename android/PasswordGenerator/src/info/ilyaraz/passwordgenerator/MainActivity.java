@@ -57,4 +57,22 @@ public class MainActivity extends Activity {
         return true;
     }
     
+    
+    void changeMasterPasswordMenuItem() {
+    	final MainActivity activity = this;
+    	
+    	MasterPasswordEditor.editMasterPassword(this, "Change Master Password", "Please set new master password.", 
+    			new StringCallback() {
+					@Override
+					public void Run(String value) {
+						activity.masterPasswordHash = value;
+						setContentView(R.layout.activity_main);
+					}
+				}, 
+    			new Closure() {
+					@Override
+					public void Run() {
+					}
+				});
+    }
 }

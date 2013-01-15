@@ -4,5 +4,6 @@
     <string name="master_password">Master password</string>
     <string name="app_name">Password Generator</string>
     <string name="menu_settings">Password Generator</string>
+    <string name="changeMasterPasswordMenuItem">Change master password...</string>
 
 </resources>
