@@ -8,3 +8,4 @@ gen1 github.com 15
 gen1 amazon.com 15
 gen1 hdd 15
 gen2 bankofamerica.com 20
+gen2 ippi.fr 20
