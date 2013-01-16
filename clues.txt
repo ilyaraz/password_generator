@@ -9,3 +9,5 @@ gen1 amazon.com 15
 gen1 hdd 15
 gen2 bankofamerica.com 20
 gen2 ippi.fr 20
+gen1 debian-user 15
+gen1 debian-root 15
