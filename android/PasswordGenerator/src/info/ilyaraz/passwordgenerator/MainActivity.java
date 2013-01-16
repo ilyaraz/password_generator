@@ -9,7 +9,6 @@ import info.ilyaraz.passwordgenerator.util.ObjectSerializer;
 import info.ilyaraz.passwordgenerator.util.StringCallback;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Map;
@@ -20,7 +19,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
