@@ -22,7 +22,7 @@ public class ClueEditor {
 		final SharedPreferences settings = context.getSharedPreferences(Constants.STORAGE_NAMESPACE, 0);
 		
     	LayoutInflater inflater = context.getLayoutInflater();
-    	View dialogLayout = inflater.inflate(R.layout.add_clue, (ViewGroup) context.getCurrentFocus());
+    	View dialogLayout = inflater.inflate(R.layout.add_clue, null);
     	AlertDialog.Builder builder = new AlertDialog.Builder(context);
     	builder.setView(dialogLayout);
     	    	
