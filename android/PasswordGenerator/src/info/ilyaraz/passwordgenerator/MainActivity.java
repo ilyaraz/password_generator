@@ -4,21 +4,27 @@ import info.ilyaraz.passwordgenerator.domain.ClueData;
 import info.ilyaraz.passwordgenerator.util.Callback1;
 import info.ilyaraz.passwordgenerator.util.Closure;
 import info.ilyaraz.passwordgenerator.util.Constants;
+import info.ilyaraz.passwordgenerator.util.HashCalculator;
 import info.ilyaraz.passwordgenerator.util.ObjectSerializer;
 import info.ilyaraz.passwordgenerator.util.StringCallback;
 
 import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import android.os.Bundle;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -27,6 +33,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
+import android.widget.TextView;
 
 public class MainActivity extends Activity {
 
@@ -49,7 +56,7 @@ public class MainActivity extends Activity {
 						@Override
 						public void Run(String value) {
 							activity.masterPasswordHash = value;
-							setContentView(R.layout.activity_main);
+							finishCreation();
 						}
 					}, 
         			new Closure() {
@@ -63,8 +70,49 @@ public class MainActivity extends Activity {
         
         this.masterPasswordHash = masterPasswordHash;
         
-        setContentView(R.layout.activity_main);
+        finishCreation();
+ 
+
     }
+	
+	private void finishCreation() {
+		setContentView(R.layout.activity_main);
+	    EditText masterPasswordField = (EditText)findViewById(R.id.master_password);
+	    final Activity parent = this;
+	    final ArrayList<ClueData> clues = this.clues;
+        masterPasswordField.addTextChangedListener(new TextWatcher() {
+
+			@Override
+			public void afterTextChanged(Editable arg0) {
+				Log.d("afterTextChanged()", "alsdjaslkdjalskdjlaskj");
+				EditText masterPasswordField = (EditText)parent.findViewById(R.id.master_password);
+				String masterPassword = masterPasswordField.getText().toString();
+				Spinner clueSpinner = (Spinner)parent.findViewById(R.id.clue);
+				ClueData clueData = clues.get(clueSpinner.getSelectedItemPosition());
+				String clue = clueData.getClueName();
+				int passwordLength = clueData.getPasswordLength();
+				Set<Character> alphabet = clueData.getAlphabet();
+				String password = HashCalculator.getPassword(masterPassword, clue, passwordLength, alphabet);
+				TextView passwordField = (TextView)parent.findViewById(R.id.password);
+				passwordField.setText(password);
+			}
+
+			@Override
+			public void beforeTextChanged(CharSequence arg0, int arg1,
+					int arg2, int arg3) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void onTextChanged(CharSequence arg0, int arg1, int arg2,
+					int arg3) {
+				// TODO Auto-generated method stub
+				
+			}
+        	
+        });
+	}
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -119,10 +167,12 @@ public class MainActivity extends Activity {
 				});
     }
     
+    private ArrayList<ClueData> clues = new ArrayList<ClueData>();
+    
     private void addCluesToSpinner() {
     	final SharedPreferences settings = getSharedPreferences(Constants.STORAGE_NAMESPACE, 0);
     	Map<String, ?> settingsMap = settings.getAll();
-    	List<ClueData> clues = new ArrayList<ClueData>();
+    	clues.clear();
     	try {
 	    	for (String key: settingsMap.keySet()) {
 	    		if (key.startsWith(Constants.CLUES_PREFIX)) {
@@ -134,12 +184,19 @@ public class MainActivity extends Activity {
     	catch (Exception e) {
     		throw new RuntimeException(e);
     	}
+    	Collections.sort(clues, new Comparator<ClueData>() {
+
+			@Override
+			public int compare(ClueData arg0, ClueData arg1) {
+				return arg0.toString().compareTo(arg1.toString());
+			}
+    		
+    	});
+    	
     	String[] cluesNames = new String[clues.size()];
-    	int ind = 0;
-    	for (ClueData clue: clues) {
-    		cluesNames[ind++] = clue.toString();
+    	for (int i = 0; i < clues.size(); ++i) {
+    		cluesNames[i] = clues.get(i).getClueName();
     	}
-    	Arrays.sort(cluesNames);
     	SpinnerAdapter newSpinnerAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, cluesNames);
     	Spinner cluesSpinner = (Spinner)findViewById(R.id.clue);
     	Log.d("epta", Arrays.toString(cluesNames));
