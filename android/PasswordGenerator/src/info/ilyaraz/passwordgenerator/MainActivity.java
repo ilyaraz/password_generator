@@ -72,7 +72,6 @@ public class MainActivity extends Activity {
 
 			@Override
 			public void afterTextChanged(Editable arg0) {
-				Log.d("afterTextChanged()", "alsdjaslkdjalskdjlaskj");
 				EditText masterPasswordField = (EditText)parent.findViewById(R.id.master_password);
 				String masterPassword = masterPasswordField.getText().toString();
 				Spinner clueSpinner = (Spinner)parent.findViewById(R.id.clue);
@@ -165,7 +164,6 @@ public class MainActivity extends Activity {
     	try {
 	    	for (String key: settingsMap.keySet()) {
 	    		if (key.startsWith(Constants.CLUES_PREFIX)) {
-	    			Log.d("pizdec", (String)settingsMap.get(key));
 	    			clues.add((ClueData)ObjectSerializer.deserialize((String)settingsMap.get(key)));
 	    		}
 	    	}
@@ -188,7 +186,6 @@ public class MainActivity extends Activity {
     	}
     	SpinnerAdapter newSpinnerAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, cluesNames);
     	Spinner cluesSpinner = (Spinner)findViewById(R.id.clue);
-    	Log.d("epta", Arrays.toString(cluesNames));
     	cluesSpinner.setAdapter(newSpinnerAdapter);
     }
 }
