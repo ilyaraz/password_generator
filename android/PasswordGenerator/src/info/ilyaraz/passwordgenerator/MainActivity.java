@@ -3,19 +3,30 @@ package info.ilyaraz.passwordgenerator;
 import info.ilyaraz.passwordgenerator.domain.ClueData;
 import info.ilyaraz.passwordgenerator.util.Callback1;
 import info.ilyaraz.passwordgenerator.util.Closure;
+import info.ilyaraz.passwordgenerator.util.Constants;
+import info.ilyaraz.passwordgenerator.util.ObjectSerializer;
 import info.ilyaraz.passwordgenerator.util.StringCallback;
 
 import java.security.MessageDigest;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import android.os.Bundle;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 
 public class MainActivity extends Activity {
 
@@ -28,6 +39,7 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         
         final SharedPreferences settings = this.getSharedPreferences("UnpredictablePasswordGenerator", 0);
+        settings.edit().clear().commit();
         String masterPasswordHash = settings.getString(MASTER_HASH, null);
         if (masterPasswordHash == null) {
         	final MainActivity activity = this;
@@ -96,7 +108,7 @@ public class MainActivity extends Activity {
     			new Callback1<ClueData>() {
 					@Override
 					public void Run(ClueData value) {
-						
+						addCluesToSpinner();
 					}
 				}, 
 				new Closure() {
@@ -105,5 +117,32 @@ public class MainActivity extends Activity {
 						
 					}
 				});
+    }
+    
+    private void addCluesToSpinner() {
+    	final SharedPreferences settings = getSharedPreferences(Constants.STORAGE_NAMESPACE, 0);
+    	Map<String, ?> settingsMap = settings.getAll();
+    	List<ClueData> clues = new ArrayList<ClueData>();
+    	try {
+	    	for (String key: settingsMap.keySet()) {
+	    		if (key.startsWith(Constants.CLUES_PREFIX)) {
+	    			Log.d("pizdec", (String)settingsMap.get(key));
+	    			clues.add((ClueData)ObjectSerializer.deserialize((String)settingsMap.get(key)));
+	    		}
+	    	}
+    	}
+    	catch (Exception e) {
+    		throw new RuntimeException(e);
+    	}
+    	String[] cluesNames = new String[clues.size()];
+    	int ind = 0;
+    	for (ClueData clue: clues) {
+    		cluesNames[ind++] = clue.toString();
+    	}
+    	Arrays.sort(cluesNames);
+    	SpinnerAdapter newSpinnerAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, cluesNames);
+    	Spinner cluesSpinner = (Spinner)findViewById(R.id.clue);
+    	Log.d("epta", Arrays.toString(cluesNames));
+    	cluesSpinner.setAdapter(newSpinnerAdapter);
     }
 }

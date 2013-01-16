@@ -5,5 +5,11 @@
     <string name="app_name">Password Generator</string>
     <string name="menu_settings">Password Generator</string>
     <string name="changeMasterPasswordMenuItem">Change master password...</string>
+    <string name="arbitrary_characters">Arbitrary printable characters</string>
+    <string name="alphanumeric_characters">Alphanumeric</string>
+    <string-array name="alphabets">
+        <item >Arbitrary printable</item>
+        <item >Alphanumeric</item>
+    </string-array>
 
 </resources>
