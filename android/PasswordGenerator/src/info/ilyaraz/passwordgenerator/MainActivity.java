@@ -88,7 +88,11 @@ public class MainActivity extends Activity {
 				EditText masterPasswordField = (EditText)parent.findViewById(R.id.master_password);
 				String masterPassword = masterPasswordField.getText().toString();
 				Spinner clueSpinner = (Spinner)parent.findViewById(R.id.clue);
-				ClueData clueData = clues.get(clueSpinner.getSelectedItemPosition());
+				long position = clueSpinner.getSelectedItemPosition();
+				if (position < 0 || position >= clues.size()) {
+					return;
+				}
+				ClueData clueData = clues.get((int)position);
 				String clue = clueData.getClueName();
 				int passwordLength = clueData.getPasswordLength();
 				Set<Character> alphabet = clueData.getAlphabet();
