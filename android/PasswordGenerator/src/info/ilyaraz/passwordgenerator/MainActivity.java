@@ -1,5 +1,7 @@
 package info.ilyaraz.passwordgenerator;
 
+import info.ilyaraz.passwordgenerator.domain.ClueData;
+import info.ilyaraz.passwordgenerator.util.Callback1;
 import info.ilyaraz.passwordgenerator.util.Closure;
 import info.ilyaraz.passwordgenerator.util.StringCallback;
 
@@ -87,5 +89,21 @@ public class MainActivity extends Activity {
     		default:
     			return super.onOptionsItemSelected(item);
     	}
+    }
+    
+    public void onAddClue(View view) {
+    	ClueEditor.editClue(null, this, 
+    			new Callback1<ClueData>() {
+					@Override
+					public void Run(ClueData value) {
+						
+					}
+				}, 
+				new Closure() {
+					@Override
+					public void Run() {
+						
+					}
+				});
     }
 }
