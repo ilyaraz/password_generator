@@ -1,24 +1,21 @@
 package info.ilyaraz.passwordgenerator;
 
-import java.io.IOException;
-import java.security.MessageDigest;
-import java.util.HashSet;
-import java.util.UUID;
-
 import info.ilyaraz.passwordgenerator.domain.ClueData;
 import info.ilyaraz.passwordgenerator.util.Callback1;
 import info.ilyaraz.passwordgenerator.util.Closure;
 import info.ilyaraz.passwordgenerator.util.Constants;
 import info.ilyaraz.passwordgenerator.util.ObjectSerializer;
-import info.ilyaraz.passwordgenerator.util.StringCallback;
+
+import java.io.IOException;
+import java.util.HashSet;
+import java.util.UUID;
+
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.ContextWrapper;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.Spinner;
 

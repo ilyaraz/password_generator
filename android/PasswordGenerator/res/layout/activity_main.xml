@@ -48,7 +48,7 @@
         android:layout_below="@+id/clue"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="22dp"
-        android:text="blahblah" />
+        android:text=" " />
 
     <Button
         android:id="@+id/copy"

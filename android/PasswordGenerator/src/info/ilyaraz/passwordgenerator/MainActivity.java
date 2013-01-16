@@ -8,21 +8,16 @@ import info.ilyaraz.passwordgenerator.util.HashCalculator;
 import info.ilyaraz.passwordgenerator.util.ObjectSerializer;
 import info.ilyaraz.passwordgenerator.util.StringCallback;
 
-import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import android.os.Bundle;
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -39,9 +34,7 @@ public class MainActivity extends Activity {
 
     private static final String MASTER_HASH = "MASTER_HASH";
     
-    private String masterPasswordHash = null;
-
-	@Override
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
@@ -49,13 +42,10 @@ public class MainActivity extends Activity {
         settings.edit().clear().commit();
         String masterPasswordHash = settings.getString(MASTER_HASH, null);
         if (masterPasswordHash == null) {
-        	final MainActivity activity = this;
-        	
         	MasterPasswordEditor.editMasterPassword(this, "Set Master Password", "Please set master password.", 
         			new StringCallback() {
 						@Override
 						public void Run(String value) {
-							activity.masterPasswordHash = value;
 							finishCreation();
 						}
 					}, 
@@ -67,8 +57,6 @@ public class MainActivity extends Activity {
 					});
         	return;
         }
-        
-        this.masterPasswordHash = masterPasswordHash;
         
         finishCreation();
  
@@ -127,13 +115,10 @@ public class MainActivity extends Activity {
     
     
     void changeMasterPasswordMenuItem() {
-    	final MainActivity activity = this;
-    	
     	MasterPasswordEditor.editMasterPassword(this, "Change Master Password", "Please set new master password.", 
     			new StringCallback() {
 					@Override
 					public void Run(String value) {
-						activity.masterPasswordHash = value;
 						setContentView(R.layout.activity_main);
 					}
 				}, 

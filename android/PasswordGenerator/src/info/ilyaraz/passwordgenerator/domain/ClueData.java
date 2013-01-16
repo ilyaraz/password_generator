@@ -7,6 +7,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class ClueData implements Serializable {
+
+	private static final long serialVersionUID = -1384967285792224044L;
+
 	public ClueData(String id, String clueName, int passwordLength, Collection<Character> alphabet) {
 		this.id = id;
 		this.clueName = clueName;
