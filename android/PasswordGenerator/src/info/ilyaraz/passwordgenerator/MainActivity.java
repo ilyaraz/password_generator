@@ -11,6 +11,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 
@@ -59,7 +60,7 @@ public class MainActivity extends Activity {
     }
     
     
-    public void changeMasterPasswordMenuItem(View view) {
+    void changeMasterPasswordMenuItem() {
     	final MainActivity activity = this;
     	
     	MasterPasswordEditor.editMasterPassword(this, "Change Master Password", "Please set new master password.", 
@@ -75,5 +76,16 @@ public class MainActivity extends Activity {
 					public void Run() {
 					}
 				});
+    }
+    
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+    	switch (item.getItemId()) {
+    		case R.id.changeMasterItem:
+    			changeMasterPasswordMenuItem();
+    			return true;
+    		default:
+    			return super.onOptionsItemSelected(item);
+    	}
     }
 }
