@@ -118,7 +118,7 @@ public class MainActivity extends Activity {
     			new StringCallback() {
 					@Override
 					public void Run(String value) {
-						setContentView(R.layout.activity_main);
+						
 					}
 				}, 
     			new Closure() {
