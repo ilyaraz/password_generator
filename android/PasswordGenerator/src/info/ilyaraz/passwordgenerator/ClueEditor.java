@@ -28,7 +28,6 @@ import android.widget.Spinner;
 public class ClueEditor {
 	
 	public static void editClue(final String clueId, final Activity context, final Callback1<ClueData> onSuccess, final Closure onFailure) {
-		Log.d("nyasha", "Showing dialog");
 		final SharedPreferences settings = context.getSharedPreferences(Constants.STORAGE_NAMESPACE, 0);
 		
     	LayoutInflater inflater = context.getLayoutInflater();
@@ -62,7 +61,6 @@ public class ClueEditor {
 						}
 					}
 					if (index == -1) {
-						Log.d("botva", "botva");
 						throw new RuntimeException();
 					}
 					alphabetField.setSelection(index);

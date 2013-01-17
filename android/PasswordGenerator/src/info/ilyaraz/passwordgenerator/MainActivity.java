@@ -256,7 +256,6 @@ public class MainActivity extends Activity {
 		String masterPassword = masterPasswordField.getText().toString();
 		ImageView indicator = (ImageView) parent.findViewById(R.id.is_master_password_correct);
 		if (!getMasterHash().equals(HashCalculator.base64SHA512(masterPassword))) {
-			Log.d("botva", getMasterHash() + " instead of " + HashCalculator.base64SHA512(masterPassword));
 			indicator.setImageResource(R.drawable.cross);
 			return false;
 		}
