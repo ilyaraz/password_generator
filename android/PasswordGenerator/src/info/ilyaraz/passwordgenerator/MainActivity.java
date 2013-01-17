@@ -1,6 +1,7 @@
 package info.ilyaraz.passwordgenerator;
 
 import info.ilyaraz.passwordgenerator.domain.ClueData;
+import info.ilyaraz.passwordgenerator.ui.ClueAdapter;
 import info.ilyaraz.passwordgenerator.util.Callback1;
 import info.ilyaraz.passwordgenerator.util.Closure;
 import info.ilyaraz.passwordgenerator.util.Constants;
@@ -15,6 +16,7 @@ import java.util.Map;
 import java.util.Set;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.ClipboardManager;
@@ -194,12 +196,53 @@ public class MainActivity extends Activity {
     		
     	});
     	
-    	String[] cluesNames = new String[clues.size()];
+    	ArrayList<String> clueNames = new ArrayList<String>();
+    	ArrayList<String> clueIds = new ArrayList<String>();
     	for (int i = 0; i < clues.size(); ++i) {
-    		cluesNames[i] = clues.get(i).getClueName();
+    		clueNames.add(clues.get(i).getClueName());
+    		clueIds.add(clues.get(i).getId());
     	}
-    	SpinnerAdapter newSpinnerAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, cluesNames);
-    	Spinner cluesSpinner = (Spinner)findViewById(R.id.clue);
+    	final Activity context = this;
+    	final Spinner cluesSpinner = (Spinner)findViewById(R.id.clue);
+    	
+    	SpinnerAdapter newSpinnerAdapter = new ClueAdapter(clueNames, clueIds, this, 
+    			new StringCallback() {
+					@Override
+					public void Run(String value) {
+						ClueEditor.editClue(value, context, 
+								new Callback1<ClueData>() {
+									@Override
+									public void Run(ClueData value) {
+										int index = cluesSpinner.getSelectedItemPosition();
+										addCluesToSpinner();
+										cluesSpinner.setSelection(index);
+									}
+								},
+								new Closure() {
+									@Override
+									public void Run() {
+										addCluesToSpinner();
+									}
+								});
+					}
+				},
+				new StringCallback() {
+					@Override
+					public void Run(String value) {
+						int index = cluesSpinner.getSelectedItemPosition();
+						settings.edit().remove(Constants.CLUES_PREFIX + value).commit();
+						addCluesToSpinner();
+						if (index < cluesSpinner.getCount())
+							cluesSpinner.setSelection(index);
+					}
+				},
+				new Callback1<Integer>() {
+					@Override
+					public void Run(Integer value) {
+						cluesSpinner.setSelection(value);
+					}
+				});
+    	
     	cluesSpinner.setAdapter(newSpinnerAdapter);
     }
 
