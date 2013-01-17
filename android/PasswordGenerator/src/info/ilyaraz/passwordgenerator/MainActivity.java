@@ -15,7 +15,6 @@ import java.util.Map;
 import java.util.Set;
 
 import android.app.Activity;
-import android.content.ClipData;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.ClipboardManager;
