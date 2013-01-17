@@ -15,8 +15,10 @@ import java.util.Map;
 import java.util.Set;
 
 import android.app.Activity;
+import android.content.ClipData;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.ClipboardManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -203,7 +205,7 @@ public class MainActivity extends Activity {
     }
 
 
-	private void updateGeneratedPassword(final Activity parent,
+	private boolean updateGeneratedPassword(final Activity parent,
 			final ArrayList<ClueData> clues) {
 		TextView passwordField = (TextView)parent.findViewById(R.id.password);
 		passwordField.setText("");
@@ -214,13 +216,13 @@ public class MainActivity extends Activity {
 		if (!getMasterHash().equals(HashCalculator.base64SHA512(masterPassword))) {
 			Log.d("botva", getMasterHash() + " instead of " + HashCalculator.base64SHA512(masterPassword));
 			indicator.setImageResource(R.drawable.cross);
-			return;
+			return false;
 		}
 		indicator.setImageResource(R.drawable.check);
 		Spinner clueSpinner = (Spinner)parent.findViewById(R.id.clue);
 		long position = clueSpinner.getSelectedItemPosition();
 		if (position < 0 || position >= clues.size()) {
-			return;
+			return false;
 		}
 		ClueData clueData = clues.get((int)position);
 		String clue = clueData.getClueName();
@@ -228,5 +230,23 @@ public class MainActivity extends Activity {
 		Set<Character> alphabet = clueData.getAlphabet();
 		String password = HashCalculator.getPassword(masterPassword, clue, passwordLength, alphabet);
 		passwordField.setText(password);
+		return true;
 	}
+	
+	public void copyPassword(View view) {
+		if (!updateGeneratedPassword(this, clues)) return;
+		TextView passwordField = (TextView)findViewById(R.id.password);
+		String password = passwordField.getText().toString();
+		ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+		clipboard.setText(password);
+	}
+
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		EditText masterPasswordField = (EditText)findViewById(R.id.master_password);
+		masterPasswordField.setText("");
+	}
+	
 }

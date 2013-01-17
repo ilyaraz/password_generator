@@ -58,6 +58,7 @@
         android:layout_below="@+id/password"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="18dp"
+        android:onClick="copyPassword"
         android:text="Copy" />
 
 </RelativeLayout>
