@@ -5,8 +5,6 @@ import info.ilyaraz.passwordgenerator.util.Constants;
 import info.ilyaraz.passwordgenerator.util.HashCalculator;
 import info.ilyaraz.passwordgenerator.util.StringCallback;
 
-import java.security.MessageDigest;
-
 import android.app.AlertDialog;
 import android.content.ContextWrapper;
 import android.content.DialogInterface;

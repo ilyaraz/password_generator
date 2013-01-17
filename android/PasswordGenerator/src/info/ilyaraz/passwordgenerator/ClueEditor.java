@@ -14,6 +14,9 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -21,21 +24,24 @@ import android.widget.Spinner;
 
 public class ClueEditor {
 	public static void editClue(String clueId, final Activity context, final Callback1<ClueData> onSuccess, final Closure onFailure) {
+		Log.d("nyasha", "Showing dialog");
 		final SharedPreferences settings = context.getSharedPreferences(Constants.STORAGE_NAMESPACE, 0);
 		
     	LayoutInflater inflater = context.getLayoutInflater();
     	final View dialogLayout = inflater.inflate(R.layout.add_clue, null);
     	AlertDialog.Builder builder = new AlertDialog.Builder(context);
     	builder.setView(dialogLayout);
+
+    	final EditText passwordLengthField = (EditText)dialogLayout.findViewById(R.id.password_length);
+    	final EditText clueNameField = (EditText)dialogLayout.findViewById(R.id.clue);
+    	
     	    	
     	builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {				
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				EditText clueNameField = (EditText)dialogLayout.findViewById(R.id.clue);
 				String clueName = clueNameField.getText().toString();
-				EditText passwordLengthField = (EditText)dialogLayout.findViewById(R.id.password_length);
 				int passwordLength = Integer.parseInt(passwordLengthField.getText().toString());
-				if (passwordLength > Constants.MAX_PASSWORD_LENGTH) {
+				if (clueName.equals("") || passwordLength > Constants.MAX_PASSWORD_LENGTH) {
 					throw new RuntimeException("password length is too large: " + passwordLength);
 				}
 				HashSet<Character> alphabet = new HashSet<Character>();
@@ -75,10 +81,52 @@ public class ClueEditor {
 			}
 		});
     	
-    	builder.show();
+    	builder.setCancelable(false);
+    	
+    	final AlertDialog dialog = builder.create();
+    
+    	TextWatcher textWatcher = new TextWatcher() {
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+				updateOkState(dialog, passwordLengthField, clueNameField);
+			}
+			
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+			
+			@Override
+			public void afterTextChanged(Editable s) {}
+		};
+		
+		passwordLengthField.addTextChangedListener(textWatcher);
+		clueNameField.addTextChangedListener(textWatcher);
+		
+    	dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+			@Override
+			public void onShow(DialogInterface dialogInterface) {
+				updateOkState(dialog, passwordLengthField, clueNameField);
+			}
+		});
+    	dialog.show();
 	}
 	
 	private static String getRandomId() {
 		return UUID.randomUUID().toString();
+	}
+
+	private static void updateOkState(final AlertDialog dialog, final EditText passwordLengthField, EditText clueNameField) {
+		boolean ok = true;
+		try {
+			int passwordLength = Integer.parseInt(passwordLengthField.getText().toString());
+			if (passwordLength > Constants.MAX_PASSWORD_LENGTH) {
+				ok = false;
+			}
+			if (clueNameField.getText().toString().equals("")) {
+				ok = false;
+			}
+		} catch (Throwable e) {
+			ok = false;
+		}
+		dialog.getButton(DialogInterface.BUTTON_POSITIVE).setEnabled(ok);
 	}
 }
