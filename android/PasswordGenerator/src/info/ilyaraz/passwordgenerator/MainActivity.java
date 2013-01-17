@@ -19,11 +19,14 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
@@ -32,12 +35,15 @@ public class MainActivity extends Activity {
 
     private static final String MASTER_HASH = "MASTER_HASH";
     
+    private Object lock = new Object();
+    private String masterHash = null;
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
         final SharedPreferences settings = this.getSharedPreferences("UnpredictablePasswordGenerator", 0);
-        settings.edit().clear().commit();
+        //settings.edit().clear().commit();
         String masterPasswordHash = settings.getString(MASTER_HASH, null);
         if (masterPasswordHash == null) {
         	MasterPasswordEditor.editMasterPassword(this, "Set Master Password", "Please set master password.", 
@@ -57,52 +63,56 @@ public class MainActivity extends Activity {
         }
         
         finishCreation();
- 
 
     }
+    
+    
+    private String getMasterHash() {
+    	synchronized (lock) {
+    		if (masterHash != null)
+    			return masterHash;
+    		final SharedPreferences settings = this.getSharedPreferences("UnpredictablePasswordGenerator", 0);
+    		String masterPasswordHash = settings.getString(MASTER_HASH, null);
+    		masterHash = masterPasswordHash;
+    		return masterHash;
+    	}
+    }
 	
+    
 	private void finishCreation() {
 		setContentView(R.layout.activity_main);
+		addCluesToSpinner();
 	    EditText masterPasswordField = (EditText)findViewById(R.id.master_password);
 	    final Activity parent = this;
 	    final ArrayList<ClueData> clues = this.clues;
+	    
         masterPasswordField.addTextChangedListener(new TextWatcher() {
-
 			@Override
 			public void afterTextChanged(Editable arg0) {
-				EditText masterPasswordField = (EditText)parent.findViewById(R.id.master_password);
-				String masterPassword = masterPasswordField.getText().toString();
-				Spinner clueSpinner = (Spinner)parent.findViewById(R.id.clue);
-				long position = clueSpinner.getSelectedItemPosition();
-				if (position < 0 || position >= clues.size()) {
-					return;
-				}
-				ClueData clueData = clues.get((int)position);
-				String clue = clueData.getClueName();
-				int passwordLength = clueData.getPasswordLength();
-				Set<Character> alphabet = clueData.getAlphabet();
-				String password = HashCalculator.getPassword(masterPassword, clue, passwordLength, alphabet);
-				TextView passwordField = (TextView)parent.findViewById(R.id.password);
-				passwordField.setText(password);
+				updateGeneratedPassword(parent, clues);
 			}
 
 			@Override
-			public void beforeTextChanged(CharSequence arg0, int arg1,
-					int arg2, int arg3) {
-				// TODO Auto-generated method stub
-				
-			}
+			public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {}
 
 			@Override
-			public void onTextChanged(CharSequence arg0, int arg1, int arg2,
-					int arg3) {
-				// TODO Auto-generated method stub
-				
-			}
-        	
+			public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {}
         });
-	}
+        
+        Spinner clueSpinner = (Spinner)parent.findViewById(R.id.clue);
+        clueSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+			@Override
+			public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+				updateGeneratedPassword(parent, clues);
+			}
 
+			@Override
+			public void onNothingSelected(AdapterView<?> arg0) {
+				updateGeneratedPassword(parent, clues);
+			}
+		});
+	}
+	
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -112,11 +122,16 @@ public class MainActivity extends Activity {
     
     
     void changeMasterPasswordMenuItem() {
+    	final Activity parent = this;
+    	final ArrayList<ClueData> clues = this.clues;
     	MasterPasswordEditor.editMasterPassword(this, "Change Master Password", "Please set new master password.", 
     			new StringCallback() {
 					@Override
 					public void Run(String value) {
-						
+						synchronized (lock) {
+							masterHash = null;
+						}
+						updateGeneratedPassword(parent, clues);
 					}
 				}, 
     			new Closure() {
@@ -186,4 +201,32 @@ public class MainActivity extends Activity {
     	Spinner cluesSpinner = (Spinner)findViewById(R.id.clue);
     	cluesSpinner.setAdapter(newSpinnerAdapter);
     }
+
+
+	private void updateGeneratedPassword(final Activity parent,
+			final ArrayList<ClueData> clues) {
+		TextView passwordField = (TextView)parent.findViewById(R.id.password);
+		passwordField.setText("");
+		
+		EditText masterPasswordField = (EditText)parent.findViewById(R.id.master_password);
+		String masterPassword = masterPasswordField.getText().toString();
+		ImageView indicator = (ImageView) parent.findViewById(R.id.is_master_password_correct);
+		if (!getMasterHash().equals(HashCalculator.base64SHA512(masterPassword))) {
+			Log.d("botva", getMasterHash() + " instead of " + HashCalculator.base64SHA512(masterPassword));
+			indicator.setImageResource(R.drawable.cross);
+			return;
+		}
+		indicator.setImageResource(R.drawable.check);
+		Spinner clueSpinner = (Spinner)parent.findViewById(R.id.clue);
+		long position = clueSpinner.getSelectedItemPosition();
+		if (position < 0 || position >= clues.size()) {
+			return;
+		}
+		ClueData clueData = clues.get((int)position);
+		String clue = clueData.getClueName();
+		int passwordLength = clueData.getPasswordLength();
+		Set<Character> alphabet = clueData.getAlphabet();
+		String password = HashCalculator.getPassword(masterPassword, clue, passwordLength, alphabet);
+		passwordField.setText(password);
+	}
 }

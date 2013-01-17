@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
+import android.util.Base64;
+
 public class HashCalculator {
 	public static String getPassword(String masterPassword, String clue, int passwordLength, Set<Character> alphabet) {
 		MessageDigest digest;
@@ -30,5 +32,16 @@ public class HashCalculator {
 			num = num.divide(BigInteger.valueOf(chars.size()));
 		}
 		return res.toString();
+	}
+	
+	public static String base64SHA512(String text) {
+		MessageDigest digest;
+		try {
+			digest = MessageDigest.getInstance("SHA-512");
+		}
+		catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+		return Base64.encodeToString(digest.digest(text.getBytes()), Base64.DEFAULT);
 	}
 }
