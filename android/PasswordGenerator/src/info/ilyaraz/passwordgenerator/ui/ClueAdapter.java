@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
@@ -59,8 +60,8 @@ public class ClueAdapter extends BaseAdapter implements SpinnerAdapter {
 		final View spinnerEntry = entry;
 		
 		final TextView clueName = (TextView) spinnerEntry.findViewById(R.id.spinnerEntryClueName);
-		final ImageButton editClue = (ImageButton) spinnerEntry.findViewById(R.id.spinnerEntryEdit);		
-		final ImageButton removeClue = (ImageButton) spinnerEntry.findViewById(R.id.spinnerEntryRemove);
+		final ImageView editClue = (ImageView) spinnerEntry.findViewById(R.id.spinnerEntryEdit);		
+		final ImageView removeClue = (ImageView) spinnerEntry.findViewById(R.id.spinnerEntryRemove);
 		final int index = arg0;
 		
 		clueName.setText(items.get(arg0));
