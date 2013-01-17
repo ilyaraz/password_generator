@@ -3,6 +3,14 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent" >
+    <TextView
+        android:id="@+id/master_password_label"
+        android:text="Master password"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_alignParentTop="true"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        />
     <EditText
         android:id="@+id/master_password"
         android:layout_height="wrap_content"
@@ -10,7 +18,18 @@
         android:layout_alignParentLeft="true"
         android:inputType="textPassword"
         android:layout_toLeftOf="@+id/is_master_password_correct"
+        android:layout_below="@id/master_password_label"
         android:singleLine="true"
+        />
+    
+    <TextView
+        android:id="@+id/clue_label"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/master_password"
+        android:text="Clue"
+        android:textAppearance="?android:attr/textAppearanceLarge"
         />
 
     <Spinner
@@ -19,8 +38,8 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/add_clue"
         android:layout_alignParentLeft="true"
-        android:layout_below="@+id/is_master_password_correct"
-        android:layout_toLeftOf="@+id/add_clue" />
+        android:layout_below="@id/clue_label"
+        android:layout_toLeftOf="@id/add_clue" />
 
     <Button
         android:id="@+id/add_clue"
@@ -28,7 +47,7 @@
         android:layout_width="wrap_content"
         android:layout_alignParentRight="true"
         android:text="Add"
-        android:layout_below="@+id/is_master_password_correct"
+        android:layout_below="@id/clue_label"
         android:onClick="onAddClue"
         />
 
@@ -36,9 +55,9 @@
         android:id="@+id/is_master_password_correct"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/master_password"
-        android:layout_alignLeft="@+id/add_clue"
-        android:layout_alignParentTop="true"
+        android:layout_alignBottom="@id/master_password"
+        android:layout_alignLeft="@id/add_clue"
+        android:layout_below="@id/master_password_label"
         android:adjustViewBounds="true"
         android:src="@drawable/cross" />
 
@@ -46,7 +65,7 @@
         android:id="@+id/password"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/clue"
+        android:layout_below="@id/clue"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="22dp"
         android:text=" " />
@@ -55,10 +74,11 @@
         android:id="@+id/copy"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/password"
+        android:layout_below="@id/password"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="18dp"
         android:onClick="copyPassword"
         android:text="Copy" />
+
 
 </RelativeLayout>
