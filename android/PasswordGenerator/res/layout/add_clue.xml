@@ -11,6 +11,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
+        android:singleLine="true"
         android:ems="10" >
 
         <requestFocus />
@@ -23,6 +24,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/clue"
+        android:singleLine="true"
         android:ems="10"
         android:inputType="numberDecimal" />
 

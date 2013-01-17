@@ -10,6 +10,7 @@
         android:layout_alignParentLeft="true"
         android:inputType="textPassword"
         android:layout_toLeftOf="@+id/is_master_password_correct"
+        android:singleLine="true"
         />
 
     <Spinner
