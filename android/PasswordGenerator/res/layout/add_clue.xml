@@ -8,7 +8,6 @@
         android:id="@+id/clue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:singleLine="true"
@@ -21,7 +20,6 @@
         android:id="@+id/password_length"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/clue"
         android:singleLine="true"
@@ -32,8 +30,30 @@
         android:id="@+id/character_set"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
         android:layout_below="@+id/password_length"
         android:entries="@array/alphabets" />
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/clue"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/clue"
+        android:text="Clue"
+        android:layout_alignParentLeft="true"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/password_length"
+        android:layout_alignTop="@+id/password_length"
+        android:layout_toLeftOf="@+id/password_length"
+        android:text="Length"
+        android:layout_alignParentLeft="true"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
 
 </RelativeLayout>
