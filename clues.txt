@@ -18,3 +18,4 @@ gen1 debian-dev-user 15
 gen2 nic.ru 20
 gen1 dropbox-truecrypt 15
 gen1 dropbox.com 15
+gen1 gpg 15
