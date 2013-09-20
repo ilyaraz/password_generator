@@ -19,3 +19,4 @@ gen2 nic.ru 20
 gen1 dropbox-truecrypt 15
 gen1 dropbox.com 15
 gen1 gpg 15
+gen1 gpg-madars 15
