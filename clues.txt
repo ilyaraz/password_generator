@@ -20,3 +20,4 @@ gen1 dropbox-truecrypt 15
 gen1 dropbox.com 15
 gen1 ilyaraz-wordpress 15
 gen1 drugstore.com 15
+gen1 discovercard.com 15
