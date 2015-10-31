@@ -31,6 +31,4 @@ password = ""
 for i in xrange(length):
     password += symb[num % len(symb)]
     num = num / len(symb)
-os.system("echo %s | pbcopy" % shellquote(password))
-raw_input("press any key")
-os.system("echo blahblah | pbcopy")
+print password
